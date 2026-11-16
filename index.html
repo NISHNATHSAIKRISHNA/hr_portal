@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HR Portal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1 style="text-align:center;">🏢 HR Portal Project</h1>
+
+<!-- ========== LOGIN PAGE ========== -->
+<div id="loginPage" class="container">
+    <h2>Login</h2>
+
+    <label>Login as:</label>
+    <select id="loginRole" onchange="toggleLoginFields()">
+        <option value="admin">Admin</option>
+        <option value="employee">Employee</option>
+    </select>
+
+    <br><br>
+    <label id="idLabel">Username:</label>
+    <input type="text" id="loginId" placeholder="admin">
+
+    <br><br>
+    <label>Password:</label>
+    <input type="password" id="loginPassword" placeholder="password">
+
+    <br><br>
+    <button onclick="doLogin()">Login</button>
+    <p id="loginError" style="color:red;"></p>
+
+    <p style="font-size:12px;color:gray;">
+        (demo admin login -> username: admin , password: admin123) <br>
+        (demo employee login -> id: E101 , password: ravi123)
+    </p>
+</div>
+
+
+<!-- ========== ADMIN DASHBOARD ========== -->
+<div id="adminPage" class="container hidden">
+    <h2>Admin Dashboard</h2>
+    <button onclick="logout()">Logout</button>
+
+    <div class="tabs">
+        <button onclick="showAdminTab('empTab')">Employees</button>
+        <button onclick="showAdminTab('attTab')">Attendance</button>
+        <button onclick="showAdminTab('leaveTab')">Leave Requests</button>
+        <button onclick="showAdminTab('salaryTab')">Salary</button>
+        <button onclick="showAdminTab('progTab')">Work Progress</button>
+    </div>
+
+    <!-- Employees tab -->
+    <div id="empTab" class="tabContent">
+        <h3>Add New Employee</h3>
+        <input type="text" id="newEmpId" placeholder="Employee ID (eg E103)">
+        <input type="text" id="newEmpName" placeholder="Full Name">
+        <input type="email" id="newEmpEmail" placeholder="Email">
+        <input type="text" id="newEmpPassword" placeholder="Password">
+        <input type="text" id="newEmpDept" placeholder="Department">
+        <input type="number" id="newEmpSalary" placeholder="Monthly Salary">
+        <button onclick="addEmployee()">Add Employee</button>
+
+        <h3>Employee List</h3>
+        <table id="empTable" border="1" cellpadding="5">
+            <tr>
+                <th>ID</th><th>Name</th><th>Email</th><th>Dept</th><th>Salary</th><th>Action</th>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Attendance tab -->
+    <div id="attTab" class="tabContent hidden">
+        <h3>Mark Attendance Manually</h3>
+        <select id="attEmpSelect"></select>
+        <input type="date" id="attDate">
+        <select id="attStatus">
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select>
+        <button onclick="markAttendanceAdmin()">Mark Attendance</button>
+
+        <h3>All Attendance Records</h3>
+        <table id="attTable" border="1" cellpadding="5">
+            <tr><th>Emp ID</th><th>Date</th><th>Status</th><th>Mode</th><th>Time</th></tr>
+        </table>
+    </div>
+
+    <!-- Leave tab -->
+    <div id="leaveTab" class="tabContent hidden">
+        <h3>Leave Applications</h3>
+        <table id="leaveTable" border="1" cellpadding="5">
+            <tr><th>ID</th><th>Emp</th><th>From</th><th>To</th><th>Reason</th><th>Status</th><th>Action</th></tr>
+        </table>
+    </div>
+
+    <!-- Salary tab -->
+    <div id="salaryTab" class="tabContent hidden">
+        <h3>Salary / Paycheck Details</h3>
+        <table id="salaryTable" border="1" cellpadding="5">
+            <tr><th>Emp ID</th><th>Name</th><th>Base Salary</th><th>Absent Days</th><th>Deduction</th><th>Final Salary</th></tr>
+        </table>
+    </div>
+
+    <!-- Progress tab -->
+    <div id="progTab" class="tabContent hidden">
+        <h3>Employee Work Progress Updates</h3>
+        <table id="progTable" border="1" cellpadding="5">
+            <tr><th>Emp ID</th><th>Date</th><th>Update</th></tr>
+        </table>
+    </div>
+</div>
+
+
+<!-- ========== EMPLOYEE DASHBOARD ========== -->
+<div id="empPage" class="container hidden">
+    <h2>Employee Dashboard</h2>
+    <button onclick="logout()">Logout</button>
+    <h3 id="empWelcome"></h3>
+
+    <div class="tabs">
+        <button onclick="showEmpTab('punchTab')">Punch In/Out</button>
+        <button onclick="showEmpTab('myAttTab')">My Attendance</button>
+        <button onclick="showEmpTab('applyLeaveTab')">Apply Leave</button>
+        <button onclick="showEmpTab('mySalaryTab')">My Salary</button>
+        <button onclick="showEmpTab('myProgTab')">Submit Progress</button>
+    </div>
+
+    <div id="punchTab" class="tabContent">
+        <h3>Biometric Attendance (simulated)</h3>
+        <button onclick="punchAttendance('Present')">Punch In (Present)</button>
+        <button onclick="punchAttendance('Absent')">Mark Myself Absent</button>
+        <p id="punchMsg"></p>
+    </div>
+
+    <div id="myAttTab" class="tabContent hidden">
+        <h3>My Attendance History</h3>
+        <table id="myAttTable" border="1" cellpadding="5">
+            <tr><th>Date</th><th>Status</th><th>Mode</th><th>Time</th></tr>
+        </table>
+    </div>
+
+    <div id="applyLeaveTab" class="tabContent hidden">
+        <h3>Apply for Leave</h3>
+        From: <input type="date" id="leaveFrom">
+        To: <input type="date" id="leaveTo">
+        <br><br>
+        Reason: <input type="text" id="leaveReason" placeholder="reason for leave">
+        <br><br>
+        <button onclick="applyLeave()">Submit Application</button>
+        <p id="leaveMsg"></p>
+
+        <h3>My Leave History</h3>
+        <table id="myLeaveTable" border="1" cellpadding="5">
+            <tr><th>From</th><th>To</th><th>Reason</th><th>Status</th></tr>
+        </table>
+    </div>
+
+    <div id="mySalaryTab" class="tabContent hidden">
+        <h3>My Paycheck</h3>
+        <div id="mySalaryBox"></div>
+    </div>
+
+    <div id="myProgTab" class="tabContent hidden">
+        <h3>Submit Today's Work Progress</h3>
+        <input type="text" id="progUpdate" placeholder="what did you work on today">
+        <button onclick="submitProgress()">Submit</button>
+        <p id="progMsg"></p>
+
+        <h3>My Past Updates</h3>
+        <table id="myProgTable" border="1" cellpadding="5">
+            <tr><th>Date</th><th>Update</th></tr>
+        </table>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

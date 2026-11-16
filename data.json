@@ -1,0 +1,55 @@
+{
+  "employees": [
+    {
+      "empId": "E101",
+      "name": "NISHNATH S ",
+      "email": "NISHNATHSAIKRISHNA@GMAIL.COM",
+      "password": "nsk123098",
+      "department": "INTERN",
+      "salary": 10000,
+      "joined": "2026-08-23"
+    },
+    {
+      "empId": "e101",
+      "name": "test",
+      "email": "test",
+      "password": "ravi123",
+      "department": "test",
+      "salary": 100000,
+      "joined": "2026-11-16"
+    }
+  ],
+  "attendance": [
+    {
+      "empId": "E101",
+      "date": "2026-08-23",
+      "status": "Present",
+      "mode": "Biometric",
+      "time": "12:26:30 AM"
+    },
+    {
+      "empId": "e101",
+      "date": "2026-11-16",
+      "status": "Absent",
+      "mode": "Biometric",
+      "time": "5:10:34 PM"
+    }
+  ],
+  "leaves": [
+    {
+      "empId": "E101",
+      "fromDate": "2026-03-10",
+      "toDate": "2026-04-10",
+      "reason": "test",
+      "leaveId": 1,
+      "status": "Approved"
+    }
+  ],
+  "progress": [
+    {
+      "empId": "E101",
+      "date": "2026-08-23",
+      "update": "test"
+    }
+  ]
+}
